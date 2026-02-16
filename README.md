@@ -7,10 +7,10 @@ This repository provides a comprehensive framework for deploying a cloud applica
 This hybrid cloud setup combines a manually installed OpenStack IaaS foundation (orchestrated via Heat) with a container platform (Kubernetes) deployed via Ansible on top of OpenStack VMs. The focus is to run both traditional VM workloads and modern containerized microservices (including our web app) in the same environment.
 Deployment Flow
 
-# Manual installation
+### Manual installation
 OpenStack control-plane and compute services (Keystone, Glance, Nova, Neutron, Horizon, Cinder, Swift, Nova Compute + KVM) are installed and configured **manually** on the physical servers or base VMs.
 
-# Heat orchestration
+### Heat orchestration
 **Heat** templates are used to provision and manage the OpenStack infrastructure resources:
 - VMs for Kubernetes control-plane and worker nodes
 - Neutron networks, subnets, routers, security groups
@@ -19,7 +19,7 @@ OpenStack control-plane and compute services (Keystone, Glance, Nova, Neutron, H
 
 Heat only creates the machines and networking — it does **not** install or configure the OpenStack software itself.
 
-# Ansible deploys Kubernetes & Monitoring
+### Ansible deploys Kubernetes & Monitoring
 After the VMs are up (created by Heat), **Ansible** targets those instances and installs a production-grade Kubernetes cluster:
 - kubeadm / kops-style bootstrap or custom playbooks
 - etcd (stacked or external)
@@ -29,10 +29,10 @@ After the VMs are up (created by Heat), **Ansible** targets those instances and 
 
 **Prometheus** and **Grafana** are also deployed as Kubernetes pods using Ansible, with Prometheus scraping metrics from OpenStack services, nodes, Docker, and Kubernetes components for unified observability.
 
-# Dockerizing & Deploying Our Web App Microservices
+### Dockerizing & Deploying Our Web App Microservices
 We use **Docker** to containerize the microservices of our web application and deploy them into Kubernetes pods, enabling scalable, cloud-native execution on the OpenStack-provisioned infrastructure.
 
-# Summary of responsibilities
+### Summary of responsibilities
 
 - **Manual** → OpenStack services installation & configuration  
 - **Heat** → OpenStack infrastructure provisioning & orchestration (VMs, networks, storage, …)  
