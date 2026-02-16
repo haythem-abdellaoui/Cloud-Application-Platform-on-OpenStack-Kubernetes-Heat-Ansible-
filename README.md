@@ -51,14 +51,14 @@ This Heat template provisions a basic Kubernetes-ready infrastructure on OpenSta
 - 1 master node (`k8s-master`)  
 - 1 worker node (`k8s-worker`)  
 
-## What it creates
+### What it creates
 
 - Persistent Cinder root volumes (30 GB default, bootable from Ubuntu 22.04)  
 - Nova VMs using flavor `k8s`  
 - Neutron ports on `selfservice` network with security group `k8s-secgrp`  
 - Floating IPs from `provider` network (public access to both nodes)  
 
-## Node preparation (via cloud-init)
+### Node preparation (via cloud-init)
 
 - Creates user `k8suser` / password `123` with full sudo access  
 - Disables swap permanently  
@@ -67,23 +67,13 @@ This Heat template provisions a basic Kubernetes-ready infrastructure on OpenSta
 - Installs **Prometheus Node Exporter v1.7.0** as a systemd service  
   → exposes host metrics (CPU, memory, disk, network…) on port 9100  
 
-## Parameters
+### Parameters
 
 | Parameter          | Default              | Description                              |
 |--------------------|----------------------|------------------------------------------|
 | `keypair_name`     | `mykey`              | SSH keypair name to inject into VMs      |
 | `root_volume_size` | `30`                 | Size of each root volume in GB           |
 | `ubuntu_image`     | `Ubuntu 22.04 Jammy` | Glance image used to create boot volumes |
-
-## Usage
-
-1. Deploy the stack:
-   ```bash
-   openstack stack create -t k8s-nodes.yaml k8s-nodes
-
-Retrieve floating IPs (from stack outputs or openstack server list):Bashopenstack stack show k8s-nodes -c outputs
-SSH into nodes:Bashssh k8suser@<floating-ip-master>
-# password: 123
 
 ## Ansible Roles
 Ansible roles are structured sets of tasks, variables, files, and templates that are used to define the configuration of your applications and services. This repository includes the following roles:
