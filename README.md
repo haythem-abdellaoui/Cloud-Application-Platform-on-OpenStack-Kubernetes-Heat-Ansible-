@@ -81,7 +81,7 @@ Ansible roles are structured sets of tasks, variables, files, and templates that
 - **database**: Sets up a database service (e.g., MySQL, PostgreSQL).
 - **load_balancer**: Configures a load balancer to distribute traffic to application instances.
 
-Each role can be found in the `ansible/roles/` directory, along with a `README.md` file explaining its specific usage.
+Each role can be found in the `roles/` directory, along with a `README.md` file explaining its specific usage.
 
 ## Deployment Workflow
 The deployment workflow consists of the following high-level steps:
@@ -93,7 +93,7 @@ The deployment workflow consists of the following high-level steps:
    - Update the inventory file to include the target instances.
    - Run the deployment playbook using Ansible:
      ```bash
-     ansible-playbook -i inventory deploy.yml
+     ansible-playbook -i inventory site.yml
      ```
 5. **Verify Deployment**: Access the deployed applications via the load balancer or direct instance IP addresses.
 
