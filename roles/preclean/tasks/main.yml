@@ -1,0 +1,32 @@
+- name: Wait for apt lock to be released
+  shell: |
+    while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do
+      sleep 2
+    done
+    while sudo fuser /var/lib/apt/lists/lock >/dev/null 2>&1 ; do
+      sleep 2
+    done
+    while sudo fuser /var/cache/apt/archives/lock >/dev/null 2>&1 ; do
+      sleep 2
+    done
+  changed_when: false
+
+- name: Remove broken Kubernetes repo file
+  file:
+    path: /etc/apt/sources.list.d/kubernetes.list
+    state: absent
+
+- name: Remove old Kubernetes keyrings
+  file:
+    path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    state: absent
+
+- name: Clean apt cache
+  apt:
+    autoclean: yes
+    autoremove: yes
+
+- name: Update apt cache safely
+  apt:
+    update_cache: yes
+

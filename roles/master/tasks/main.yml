@@ -1,0 +1,32 @@
+- name: Check if cluster already initialized
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: k8s_admin
+
+- name: Initialize cluster
+  command: kubeadm init --apiserver-advertise-address={{ ansible_default_ipv4.address }} --pod-network-cidr=192.168.0.0/16
+  when: not k8s_admin.stat.exists
+
+- name: Ensure kubelet is running
+  service:
+    name: kubelet
+    state: started
+    enabled: yes
+
+- name: Setup kubeconfig for k8suser
+  shell: |
+    mkdir -p /home/k8suser/.kube
+    cp /etc/kubernetes/admin.conf /home/k8suser/.kube/config
+    chown -R k8suser:k8suser /home/k8suser/.kube
+  when: k8s_admin.stat.exists
+
+- name: Wait for API server to be ready
+  shell: |
+    kubectl --kubeconfig=/etc/kubernetes/admin.conf get nodes
+  register: api_check
+  retries: 10
+  delay: 15
+  until: api_check.rc == 0
+
+- name: Install Calico
+  command: kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico.yaml

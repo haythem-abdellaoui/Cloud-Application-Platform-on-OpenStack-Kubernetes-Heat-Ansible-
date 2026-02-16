@@ -1,0 +1,10 @@
+- name: Get join command
+  delegate_to: k8s-master
+  shell: kubeadm token create --print-join-command
+  register: join_cmd
+
+- name: Join cluster
+  shell: "{{ join_cmd.stdout }}"
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+

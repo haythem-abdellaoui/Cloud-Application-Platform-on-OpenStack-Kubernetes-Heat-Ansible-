@@ -1,0 +1,22 @@
+- hosts: k8s
+  become: true
+  roles:
+    - preclean
+    - common
+    - containerd
+    - kubernetes
+
+- hosts: master
+  become: true
+  roles:
+    - master
+
+- hosts: workers
+  become: true
+  roles:
+    - worker
+
+- hosts: master
+  become: true
+  roles:
+    - monitoring

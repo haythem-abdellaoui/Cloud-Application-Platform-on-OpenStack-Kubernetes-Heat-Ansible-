@@ -1,0 +1,43 @@
+- name: Wait for API server to be ready
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl get nodes
+  register: result
+  retries: 10
+  delay: 15
+  until: result.rc == 0
+
+- name: Wait for all nodes to be Ready
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl get nodes | grep -v NotReady
+  register: nodes_ready
+  retries: 10
+  delay: 20
+  until: nodes_ready.rc == 0
+
+- name: Install Helm if not installed
+  shell: |
+    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  args:
+    creates: /usr/local/bin/helm
+
+- name: Add Prometheus Helm repo
+  shell: |
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    helm repo update
+
+- name: Install kube-prometheus-stack with Grafana NodePort
+  shell: |
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+      --namespace monitoring \
+      --create-namespace \
+      --wait \
+      --timeout 20m \
+      --set grafana.service.type=NodePort \
+      --set grafana.service.nodePort=32000
+  register: helm_result
+  retries: 2
+  delay: 30
+  until: helm_result.rc == 0
