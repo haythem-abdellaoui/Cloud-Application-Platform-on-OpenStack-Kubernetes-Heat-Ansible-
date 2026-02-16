@@ -100,5 +100,12 @@ The deployment workflow consists of the following high-level steps:
 ## Conclusion
 This repository serves as a baseline for deploying a cloud application platform using OpenStack, Kubernetes, Heat, and Ansible. For advanced configurations and customizations, feel free to modify the provided templates and roles.
 
+## Collaborators 
+- [Haythem Abdellaoui](https://github.com/haythem-abdellaoui)
+- [Ahmed Hamda](https://github.com/scyllastrikes)
+- [Rayen Derbel](https://github.com/rayenderbel100)
+- [Mohamed Raef Hosni](https://github.com/itsRaeff)
+- [Rayen Boussaidi](https://github.com/rayenboussaidi)
+- [Talel Ben Aziza]
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
