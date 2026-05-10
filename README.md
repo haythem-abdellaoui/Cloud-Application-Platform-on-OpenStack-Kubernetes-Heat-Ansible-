@@ -106,6 +106,6 @@ This repository serves as a baseline for deploying a cloud application platform 
 - [Rayen Derbel](https://github.com/rayenderbel100)
 - [Mohamed Raef Hosni](https://github.com/itsRaeff)
 - [Rayen Boussaidi](https://github.com/rayenboussaidi)
-- [Talel Ben Aziza]
+- [Talel Ben Aziza](https://github.com/TelliTalel)
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
